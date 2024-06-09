@@ -1,0 +1,162 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: ToxicBfly
+      changes:
+        - createTable:
+            tableName: contacts
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(255)
+
+        - createTable:
+            tableName: address
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: house_number
+                  type: varchar(255)
+              - column:
+                  name: street
+                  type: varchar(255)
+              - column:
+                  name: city
+                  type: varchar(255)
+              - column:
+                  name: county
+                  type: varchar(255)
+              - column:
+                  name: post_code
+                  type: varchar(255)
+
+        - createTable:
+            tableName: arrival_time
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: check_in
+                  type: varchar(255)
+              - column:
+                  name: check_out
+                  type: varchar(255)
+
+        - createTable:
+            tableName: amenity
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+
+        - createTable:
+            tableName: hotel
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: brand
+                  type: varchar(255)
+              - column:
+                  name: description
+                  type: varchar(255)
+              - column:
+                  name: contacts_id
+                  type: int
+              - column:
+                  name: address_id
+                  type: int
+              - column:
+                  name: arrival_time_id
+                  type: int
+
+        - addForeignKeyConstraint:
+            baseTableName: hotel
+            baseColumnNames: contacts_id
+            referencedTableName: contacts
+            referencedColumnNames: id
+            constraintName: hotel_contacts_fk
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: hotel
+            baseColumnNames: address_id
+            referencedTableName: address
+            referencedColumnNames: id
+            constraintName: hotel_address_fk
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: hotel
+            baseColumnNames: arrival_time_id
+            referencedTableName: arrival_time
+            referencedColumnNames: id
+            constraintName: hotel_arrival_time_fk
+            onDelete: CASCADE
+
+
+        - createTable:
+            tableName: hotel_amenities
+            columns:
+              - column:
+                  name: hotel_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amenity_id
+                  type: int
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: hotel_amenities
+            baseColumnNames: hotel_id
+            referencedTableName: hotel
+            referencedColumnNames: id
+            constraintName: hotel_amenities_hotel_fk
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: hotel_amenities
+            baseColumnNames: amenity_id
+            referencedTableName: amenity
+            referencedColumnNames: id
+            constraintName: hotel_amenities_amenity_fk
+            onDelete: CASCADE
